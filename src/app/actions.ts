@@ -11,7 +11,7 @@ export async function placeSearch(searchParams: URLSearchParams) {
         method: "GET",
         headers: {
           Accept: "application/json",
-          Authorization: "fsq3fY/E2UibVTR9wVvlQ8D6ubTLJopWa3ZExKQ6P8AdIPA=",
+          Authorization: process.env.FORESQUARE_API_KEY as string,
         },
         cache: "force-cache",
       }
