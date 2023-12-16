@@ -16,7 +16,7 @@ const Places = () => {
     query: "coffee",
     near: "Andhra Pradesh",
     open_now: "true",
-    limit: "15",
+    limit: "10",
     sort: "DISTANCE",
   });
 

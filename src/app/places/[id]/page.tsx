@@ -1,42 +1,88 @@
-const CoffeePage = async ({ params }: { params: { id: string } }) => {
-  return (
-    <div>
-      <p>Back to Home</p>
-      <h1>Title of the Shop</h1>
+"use client";
+import { placeDetails, placeSearch } from "@/app/actions";
+import { singleData } from "@/types/searchPlaces";
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
-      <div className="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-        <a href="#">
+const CoffeePage = ({ params }: { params: { id: string } }) => {
+  const [data, setData] = useState<singleData>({
+    fsq_id: "",
+    link: "",
+    location: {
+      address: "",
+      census_block: "",
+      country: "",
+      cross_street: "",
+      dma: "",
+      formatted_address: "",
+      locality: "",
+      postcode: "",
+      region: "",
+    },
+    name: "",
+    timezone: "",
+    imageUrl: {
+      full: "",
+      raw: "",
+      regular: "",
+      small: "",
+      thumb: "",
+    },
+  });
+  const searchParams = new URLSearchParams({
+    fsq_id: params.id,
+  });
+
+  useEffect(() => {
+    placeDetails(searchParams)
+      .then((data) => {
+        console.log("DATA", data);
+        if (data) {
+          setData(data);
+        }
+        return data; // You can return the data if needed
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
+  if (!data) {
+    return (
+      <>
+        <h1 className="flex flex-col justify-center items-center">
+          No data found
+        </h1>
+      </>
+    );
+  }
+  const imageUrl =
+    "https://images.unsplash.com/photo-1565650839149-2c48a094196c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1NDA3MDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MDI3MTc2Nzh8&ixlib=rb-4.0.3&q=80&w=400";
+  return (
+    <main className="flex min-h-screen flex-col p-12 bg-cover bg-[url('https://img.freepik.com/free-photo/abstract-textured-backgound_1258-30456.jpg?size=626&ext=jpg&ga=GA1.1.1266420118.1702626864&semt=ais')]">
+      <h1 className="text-xl justify-start mb-16 cursor-pointer">
+        <Link href="/places">⬅ Back to Posts</Link>
+      </h1>
+      <div className="grid grid-cols-1 lg:grid-cols-2 justify-center items-center gap-6 mb-8">
+        <Image
+          className="rounded-lg m-auto"
+          src={imageUrl}
+          alt="Images"
+          width={400}
+          height={400}
+        />
+        <div className="max-w-md p-6 bg-slate-300 border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 m-auto">
           <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-            Noteworthy technology acquisitions 2021
+            {data.name}
           </h5>
-        </a>
-        <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-          Here are the biggest enterprise technology acquisitions of 2021 so
-          far, in reverse chronological order.
-        </p>
-        <a
-          href="#"
-          className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-        >
-          Read more
-          <svg
-            className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 14 10"
-          >
-            <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M1 5h12m0 0L9 1m4 4L9 9"
-            />
-          </svg>
-        </a>
+          {/* <h1 className="text-gray-700">{params.id}</h1> */}
+          <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
+            {data.timezone}
+          </p>
+        </div>
       </div>
-    </div>
+    </main>
   );
 };
 
