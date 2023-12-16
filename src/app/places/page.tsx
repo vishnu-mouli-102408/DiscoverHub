@@ -14,9 +14,9 @@ const Places = () => {
 
   const searchParams = new URLSearchParams({
     query: "coffee",
-    near: "Andhra Pradesh",
+    near: "Hyderabad",
     open_now: "true",
-    limit: "10",
+    limit: "50",
     sort: "DISTANCE",
   });
 

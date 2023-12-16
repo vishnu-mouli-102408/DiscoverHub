@@ -43,22 +43,3 @@ export type imageUrl = {
   small: string;
   thumb: string;
 };
-
-export type singleData = {
-  fsq_id: string;
-  link: string;
-  location: {
-    address: string;
-    census_block: string;
-    country: string;
-    cross_street: string;
-    dma: string;
-    formatted_address: string;
-    locality: string;
-    postcode: string;
-    region: string;
-  };
-  name: string;
-  timezone: string;
-  imageUrl: imageUrl;
-};
